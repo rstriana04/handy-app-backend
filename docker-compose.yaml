@@ -1,0 +1,32 @@
+version: '3.7'
+services:
+  nginx:
+    image: nginx:1.19.10-alpine
+    restart: always
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+    ports:
+      - 80:80
+    depends_on:
+      - app
+  pgsql:
+    image: postgres:13.2-alpine
+    restart: always
+    environment:
+      POSTGRES_USER:  handy
+      POSTGRES_PASSWORD: handy
+      POSTGRES_DB: handy
+    ports:
+      - 54329:5432
+  app:
+    restart: always
+    image: maven:3.8.1-openjdk-16
+    working_dir: /app/src/handy-app-backend
+    volumes:
+      - ./:/app/src/handy-app-backend
+      - ~/.m2:/root/.m2
+    expose:
+      - "80"
+    command: mvn clean spring-boot:run -X
+    depends_on:
+      - pgsql
