@@ -28,12 +28,6 @@ public class ServiceReport {
     private String dateUntil;
 
     @NotNull
-    private String hourFrom;
-
-    @NotNull
-    private String hourUntil;
-
     private Long week;
-
 
 }
